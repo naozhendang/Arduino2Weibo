@@ -37,8 +37,9 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']))
             $keys['username'] = $_REQUEST['username'];
             $keys['password'] = $_REQUEST['password'];
             try {
-                    $token = $o->getAccessToken( 'password', $keys ) ;
+                $token = $o->getAccessToken( 'password', $keys ) ;
             } catch (OAuthException $e) {
+				echo json_encode(array('error'=>$e->getMessage()));
             }
     
     if ($token) {

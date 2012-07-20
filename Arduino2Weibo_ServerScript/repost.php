@@ -38,6 +38,7 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQU
 	try {
 		$token = $o->getAccessToken( 'password', $keys ) ;
 	} catch (OAuthException $e) {
+		echo json_encode(array('error'=>$e->getMessage()));
 	}
 
 	if ($token)
@@ -64,6 +65,6 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQU
                     );      
                     echo json_encode($new_msg);
                 }
-        }
+    }
 }
 ?>
