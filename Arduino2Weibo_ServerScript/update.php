@@ -45,7 +45,7 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQU
            	$c = new SaeTClientV2( WB_AKEY , WB_SKEY , $token['access_token'] );
                 //发布一条微博信息
                 //API：{@link http://open.weibo.com/wiki/2/statuses/update}
-          	$msg = $c->update( substr($_REQUEST['status'],0,139) );
+          	$msg = $c->update( substr($_REQUEST['status'].date(' Y-n-j H:i:s'),0,139) );
         
                 if(isset($msg[error])){
                     echo json_encode($msg);

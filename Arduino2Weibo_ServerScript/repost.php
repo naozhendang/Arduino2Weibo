@@ -47,7 +47,7 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQU
                 //id:要转发的微博ID,必需。
                 //API：{@link http://open.weibo.com/wiki/2/statuses/repost}
                 if(isset($_REQUEST['status'])){
-                	$msg = $c->repost( $_REQUEST['id'], substr($_REQUEST['status'],0,139) );
+                	$msg = $c->repost( $_REQUEST['id'], substr($_REQUEST['status'].date(' Y-n-j H:i:s'),0,139) );
                 } else{
                 	$msg = $c->repost( $_REQUEST['id']);
                 }
