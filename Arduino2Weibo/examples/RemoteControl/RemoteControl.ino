@@ -93,15 +93,32 @@ void checkMen(){
 				if(weibo.find_substring(text,"ON")){
 					//You can replace it with your own command
 					digitalWrite(9, HIGH);
+					
+					//Free(json) before echo 
+					//Since we used malloc() in return_data()
+					free(json);
+					json = 0;
+					
 					echo(id,msg_on);
 					Serial.println(msg_on);
 				} else if (weibo.find_substring(text,"OFF")){
 					//You can replace it with your own command
 					digitalWrite(9, LOW);
+					
+					//Free(json) before echo 
+					//Since we used malloc() in return_data()
+					free(json);
+					json = 0;
+					
 					echo(id,msg_off);
 					Serial.println(msg_off);
 				} else {
 					//Unknown command
+					//Free(json) before echo 
+					//Since we used malloc() in return_data()
+					free(json);
+					json = 0;
+					
 					echo(id,msg_unknown);
 					Serial.println(msg_unknown);
 				}
@@ -116,13 +133,13 @@ void checkMen(){
      } else {
        Serial.println("No new @ for me");
      };
-
-     //*******Important***********
+	 
+	 //*******Important***********
      //Since we used malloc() in return_data()
      //We need to free() the memory
      free(json);
      json = 0;
-     
+  
   } else {
     Serial.println("Connection failed.");
   } 
