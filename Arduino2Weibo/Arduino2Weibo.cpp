@@ -19,7 +19,7 @@
 #include "Arduino2Weibo.h"
 
 #define DEBUG
-#define LIB_DOMAIN "4.arduino2weibo.sinaapp.com"
+#define LIB_DOMAIN "arduino2weibo.sinaapp.com"
 
 //Define PROGMEM strings in flash
 const prog_char PROGMEM DNS_FAILED[] = "DNS failed\n";
