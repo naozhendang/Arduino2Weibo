@@ -10,7 +10,7 @@
   More information can be found at:  http://arduino2weibo.sinaapp.com
   
   ****** Server-side Script ******
-  »ñÈ¡@µ±Ç°ÓÃ»§µÄÎ¢²©ÁĞ±í
+  è·å–@å½“å‰ç”¨æˆ·çš„å¾®åšåˆ—è¡¨
 */
 
 // ver0.3 - Control arduino via Weibo
@@ -18,10 +18,10 @@
      
 header('Content-Type:text/html; charset=utf-8');
 
-//¼øÓÚĞÂÀËÎ¢²©API OAuth2.0ÈÏÖ¤¸÷ÖÖ¶ñĞÄÖ®´¦ºÍÏŞÖÆ
-//ÕâÀïÎÒÃÇÊ¹ÓÃÆäAndriodÆ½°å¿Í»§¶ËµÄAPI KeyºÍApp Secret
-//Arduino¶ËÖ±½ÓÍ¨¹ıÕË»§ÃûºÍÃÜÂë»ñµÃÊÚÈ¨,´Ó¶ø±Ü¿ªÁËÊÚÈ¨Ò³¡£È±µãÊÇÎ¢²©À´Ô´¶¼ÏÔÊ¾ÎªAndriodÆ½°å
-//µ±È»£¬Äã¿ÉÒÔ¸ù¾İÏ²ºÃ¾¡ÇéÊ¹ÓÃÆäËû¿Í»§¶ËµÄAPI KeyºÍApp Secret£¬¾ßÌåÇëGoogle
+//é‰´äºæ–°æµªå¾®åšAPI OAuth2.0è®¤è¯å„ç§æ¶å¿ƒä¹‹å¤„å’Œé™åˆ¶
+//è¿™é‡Œæˆ‘ä»¬ä½¿ç”¨å…¶Andriodå¹³æ¿å®¢æˆ·ç«¯çš„API Keyå’ŒApp Secret
+//Arduinoç«¯ç›´æ¥é€šè¿‡è´¦æˆ·åå’Œå¯†ç è·å¾—æˆæƒ,ä»è€Œé¿å¼€äº†æˆæƒé¡µã€‚ç¼ºç‚¹æ˜¯å¾®åšæ¥æºéƒ½æ˜¾ç¤ºä¸ºAndriodå¹³æ¿
+//å½“ç„¶ï¼Œä½ å¯ä»¥æ ¹æ®å–œå¥½å°½æƒ…ä½¿ç”¨å…¶ä»–å®¢æˆ·ç«¯çš„API Keyå’ŒApp Secretï¼Œå…·ä½“è¯·Google
 define( "WB_AKEY" , '2540340328' );
 define( "WB_SKEY" , '886cfb4e61fad4e4e9ba9dee625284dd' );
 
@@ -30,34 +30,34 @@ include_once( 'saetv2.ex.class.php' );
 
 if (isset($_REQUEST['username']) && isset($_REQUEST['password']))
 {
-    //»ñµÃOAuth2.0 Access Token
+    //è·å¾—OAuth2.0 Access Token
     $o = new SaeTOAuthV2( WB_AKEY , WB_SKEY );
     
             $keys = array();
             $keys['username'] = $_REQUEST['username'];
             $keys['password'] = $_REQUEST['password'];
             try {
-                $token = $o->getAccessToken( 'password', $keys ) ;
+                    $token = $o->getAccessToken( 'password', $keys ) ;
             } catch (OAuthException $e) {
-				echo json_encode(array('error'=>$e->getMessage()));
+            	echo json_encode(array('error'=>$e->getMessage()));
             }
     
     if ($token) {
     
             $c = new SaeTClientV2( WB_AKEY , WB_SKEY , $token['access_token'] );
             
-            //Èç¹ûPostÖĞ´øÓĞsince_id
+            //å¦‚æœPostä¸­å¸¦æœ‰since_id
             if(is_numeric($_REQUEST['since_id'])&& !empty($_REQUEST['since_id'])){
-            	//»ñµÃ±Èsince_id¸üÍíµÄmention
-            	//API£º{@link http://open.weibo.com/wiki/2/statuses/mentions statuses/mentions}
+            	//è·å¾—æ¯”since_idæ›´æ™šçš„mention
+            	//APIï¼š{@link http://open.weibo.com/wiki/2/statuses/mentions statuses/mentions}
             	$atme  = $c->mentions(1, NULL,$_REQUEST['since_id'], 0); 
             } else {
-            	//Ã»ÓĞsince_id
+            	//æ²¡æœ‰since_id
             	$atme  = $c->mentions(1, NULL,NULL, 0); 
             }
             
-            //ÈôÖ¸¶¨since_id,µ¹ĞòÅÅÁĞ»ñµÃµÄmentionsÊı×é£¬µÚÒ»×é¼´ÊÇsince_idµÄºóÒ»Ìõ
-            //ÈôÎ´Ö¸¶¨since_id£¬¾Í²»ÓÃµ¹Ğò£¬Ö±½Ó»ñÈ¡×îĞÂÒ»Ìõ
+            //è‹¥æŒ‡å®šsince_id,å€’åºæ’åˆ—è·å¾—çš„mentionsæ•°ç»„ï¼Œç¬¬ä¸€ç»„å³æ˜¯since_idçš„åä¸€æ¡
+            //è‹¥æœªæŒ‡å®šsince_idï¼Œå°±ä¸ç”¨å€’åºï¼Œç›´æ¥è·å–æœ€æ–°ä¸€æ¡
             if(is_numeric($_REQUEST['since_id'])&& !empty($_REQUEST['since_id'])){
             	rsort($atme[statuses],SORT_STRING);
             }
@@ -65,7 +65,7 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']))
             if(isset($atme[error])){
                     echo json_encode($atme);
             } else if(isset($atme[statuses][0])){
-            	  //¹¹Ôìjson
+            	  //æ„é€ json
                	  $new_atme = array
                   (
                       'id'=> $atme[statuses][0][id],

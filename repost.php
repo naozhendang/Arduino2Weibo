@@ -10,7 +10,7 @@
   More information can be found at:  http://arduino2weibo.sinaapp.com
   
   ****** Server-side Script ******
-  ×ª·¢Ò»ÌõÎ¢²©ÐÅÏ¢
+  è½¬å‘ä¸€æ¡å¾®åšä¿¡æ¯
 */
 
 // ver0.3 - Control arduino via Weibo
@@ -18,10 +18,10 @@
 
 header('Content-Type:text/html; charset=utf-8');
 
-//¼øÓÚÐÂÀËÎ¢²©API OAuth2.0ÈÏÖ¤¸÷ÖÖ¶ñÐÄÖ®´¦ºÍÏÞÖÆ
-//ÕâÀïÎÒÃÇÊ¹ÓÃÆäAndriodÆ½°å¿Í»§¶ËµÄAPI KeyºÍApp Secret
-//Arduino¶ËÖ±½ÓÍ¨¹ýÕË»§ÃûºÍÃÜÂë»ñµÃÊÚÈ¨,´Ó¶ø±Ü¿ªÁËÊÚÈ¨Ò³¡£È±µãÊÇÎ¢²©À´Ô´¶¼ÏÔÊ¾ÎªAndriodÆ½°å
-//µ±È»£¬Äã¿ÉÒÔ¸ù¾ÝÏ²ºÃ¾¡ÇéÊ¹ÓÃÆäËû¿Í»§¶ËµÄAPI KeyºÍApp Secret£¬¾ßÌåÇëGoogle
+//é‰´äºŽæ–°æµªå¾®åšAPI OAuth2.0è®¤è¯å„ç§æ¶å¿ƒä¹‹å¤„å’Œé™åˆ¶
+//è¿™é‡Œæˆ‘ä»¬ä½¿ç”¨å…¶Andriodå¹³æ¿å®¢æˆ·ç«¯çš„API Keyå’ŒApp Secret
+//Arduinoç«¯ç›´æŽ¥é€šè¿‡è´¦æˆ·åå’Œå¯†ç èŽ·å¾—æŽˆæƒ,ä»Žè€Œé¿å¼€äº†æŽˆæƒé¡µã€‚ç¼ºç‚¹æ˜¯å¾®åšæ¥æºéƒ½æ˜¾ç¤ºä¸ºAndriodå¹³æ¿
+//å½“ç„¶ï¼Œä½ å¯ä»¥æ ¹æ®å–œå¥½å°½æƒ…ä½¿ç”¨å…¶ä»–å®¢æˆ·ç«¯çš„API Keyå’ŒApp Secretï¼Œå…·ä½“è¯·Google
 define( "WB_AKEY" , '2540340328' );
 define( "WB_SKEY" , '886cfb4e61fad4e4e9ba9dee625284dd' );
 
@@ -29,7 +29,7 @@ include_once( 'saetv2.ex.class.php' );
 
 if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQUEST['id']))
 {
-	//»ñµÃOAuth2.0 Access Token
+	//èŽ·å¾—OAuth2.0 Access Token
 	$o = new SaeTOAuthV2( WB_AKEY , WB_SKEY );
 
 	$keys = array();
@@ -38,17 +38,18 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQU
 	try {
 		$token = $o->getAccessToken( 'password', $keys ) ;
 	} catch (OAuthException $e) {
-		echo json_encode(array('error'=>$e->getMessage()));
+        	echo json_encode(array('error'=>$e->getMessage()));
 	}
 
 	if ($token)
 	{
            	$c = new SaeTClientV2( WB_AKEY , WB_SKEY , $token['access_token'] );
-                //×ª·¢Ò»ÌõÎ¢²©ÐÅÏ¢
-                //id:Òª×ª·¢µÄÎ¢²©ID,±ØÐè¡£
-                //API£º{@link http://open.weibo.com/wiki/2/statuses/repost}
+                //è½¬å‘ä¸€æ¡å¾®åšä¿¡æ¯
+                //id:è¦è½¬å‘çš„å¾®åšID,å¿…éœ€ã€‚
+                //APIï¼š{@link http://open.weibo.com/wiki/2/statuses/repost}
                 if(isset($_REQUEST['status'])){
-                	$msg = $c->repost( $_REQUEST['id'], substr($_REQUEST['status'].date(' Y-n-j H:i:s'),0,139) );
+                	$msg = $c->repost( $_REQUEST['id'], substr($_REQUEST['status'].date(' Y-n-j H:i:s')
+,0,139) );
                 } else{
                 	$msg = $c->repost( $_REQUEST['id']);
                 }
@@ -57,7 +58,7 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQU
                 if(isset($msg[error])){
                     echo json_encode($msg);
                 } else {
-                    //¹¹Ôìjson
+                    //æž„é€ json
                     $new_msg=array
                     (
                       'time'=> $msg[created_at],
@@ -65,6 +66,6 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQU
                     );      
                     echo json_encode($new_msg);
                 }
-    }
+        }
 }
 ?>
